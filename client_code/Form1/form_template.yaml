@@ -1,0 +1,10 @@
+components_by_slot:
+  content: []
+  navigation:
+  - event_bindings: {click: link_1_click}
+    layout_properties: {}
+    name: link_1
+    properties: {icon: 'mi:swords', text: Play Battle Beasts, text_color: 'theme:Primary', tooltip: Play the game in testing, url: 'https://trinket.io/python/76c5618b5c4c?outputOnly=true&runOption=run', visible: true}
+    type: form:dep_lin1x4oec0ytd:_Components.Link
+is_package: true
+layout: {type: 'form:dep_lin1x4oec0ytd:Layouts.NavigationDrawerLayout'}

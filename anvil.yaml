@@ -1,4 +1,16 @@
 allow_embedding: false
+db_schema:
+  table_1:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      name: Link
+      type: string
+    - admin_ui: {order: 1, width: 200}
+      name: Name
+      type: string
+    server: full
+    title: Table 1
 dependencies:
 - config: {}
   dep_id: dep_lin1x4oec0ytd
@@ -16,3 +28,4 @@ services:
 - client_config: {}
   server_config: {}
   source: /runtime/services/tables.yml
+startup_form: Form1
