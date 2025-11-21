@@ -17,8 +17,15 @@ import anvil.server
 #
 
 @anvil.server.callable
-def getProjects():
-  r={}
-  for i in app_tables.table_1.search():
-    r[i['Name']]=i['Link']
+def getEmails(user):
+  r=''
+  for i in app_tables.table_1.search(Name=user):
+    r+=i['Content']+'\n'
+  for i in app_tables.table_1.search(Name=user):
+    r+=i['Content']+'\n'
   return r
+
+@anvil.server.callable
+def sendEmail(user,recipient,c):
+  for i in recipient:
+    app_tables.table_1.add_row(Content=c,Sender=user,Name=i)

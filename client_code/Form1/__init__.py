@@ -11,13 +11,12 @@ class Form1(Form1Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    x=anvil.server.call('getProjects')
-    for i in x:
-      new_link = Link(text=i, url=x[i])
-      self.layout.add_component(new_link)
-
     # Any code you write here will run before the form opens.
 
   def link_1_click(self, **event_args):
     """This method is called clicked"""
     pass
+  def load_click(self, **event_args):
+    self.text_1.text=anvil.server.call('getEmails',user=self.text_box_1.text)
+  def icon_button_1_click(self, **event_args):
+    anvil.server.call('sendEmail',user=self.text_box_1.text,c=self.content.text,recipient=self.recipient.text)
