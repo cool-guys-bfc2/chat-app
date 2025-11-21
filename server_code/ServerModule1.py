@@ -20,9 +20,9 @@ import anvil.server
 def getEmails(user):
   r=''
   for i in app_tables.table_1.search(Name=user):
-    r+=i['Content']+'\n'
-  for i in app_tables.table_1.search(Name=user):
-    r+=i['Content']+'\n'
+    r+=i['Content']+' from '+i['Sender']+'\n'
+  for i in app_tables.table_1.search(Sender=user):
+    r+=i['Content']+' to '+i['Name']+'\n'
   return r
 
 @anvil.server.callable
