@@ -85,4 +85,7 @@ services:
 - client_config: {}
   server_config: {app_id: chatapp}
   source: /runtime/services/facebook.yml
+- client_config: {}
+  server_config: {file_table: files}
+  source: /runtime/services/anvil/files.yml
 startup_form: Form1

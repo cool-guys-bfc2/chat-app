@@ -13,6 +13,7 @@ class Form1(Form1Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.rec=[]
     # Any code you write here will run before the form opens.
   def link_1_click(self, **event_args):
     """This method is called clicked"""
@@ -22,7 +23,8 @@ class Form1(Form1Template):
     self.text_1.text=anvil.server.call('getEmails',user=self.text_box_1.text)
   def icon_button_1_click(self, **event_args):
     self.text_box_1.text=anvil.users.get_user(allow_remembered=True)
-    anvil.server.call('sendEmail',user=self.text_box_1.text,c=self.content.text,recipient=[self.recipient.text])
+    anvil.server.call('sendEmail',user=self.text_box_1.text,c=self.content.text,recipient=self.rec)
+    self.rec=[]
     self.text_1.text=anvil.server.call('getEmails',user=self.text_box_1.text)
 
   def button_2_click(self, **event_args):
@@ -33,3 +35,16 @@ class Form1(Form1Template):
   def button_1_click(self, **event_args):
     """This method is called when the component is clicked."""
     anvil.users.signup_with_form(allow_cancel=True,remember_by_default=True)
+
+  def icon_button_2_click(self, **event_args):
+    self.rec.append(self.recipient.text)
+    self.text_6.text+=' '+self.recipient.text
+    self.recipient.text=''
+
+  def button_3_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    try:
+      del self.rec[len(self.rec)-1]
+    except:
+      pass
+    self.text_6.text=' '.join(self.rec)

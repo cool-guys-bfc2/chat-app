@@ -1,3 +1,5 @@
+import anvil.files
+from anvil.files import data_files
 import anvil.facebook.auth
 import anvil.google.auth, anvil.google.drive, anvil.google.mail
 from anvil.google.drive import app_files
@@ -33,4 +35,3 @@ def getEmails(user):
 def sendEmail(user,recipient,c):
   for i in recipient:
     app_tables.table_1.add_row(Content=c,Sender=user,Name=i)
-    #anvil.google.mail.send(to=i,subject='EMAIL',text=c)

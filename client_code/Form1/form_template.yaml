@@ -1,4 +1,9 @@
 components_by_slot:
+  app_bar_links:
+  - layout_properties: {}
+    name: menu_item_1
+    properties: {}
+    type: form:dep_lin1x4oec0ytd:_Components.MenuItem
   content:
   - layout_properties: {}
     name: text_1
@@ -44,11 +49,25 @@ components_by_slot:
     name: text_3
     properties: {icon: 'mi:person', text: Recipient of message}
     type: form:dep_lin1x4oec0ytd:_Components.Text
+  - layout_properties: {}
+    name: text_6
+    properties: {}
+    type: form:dep_lin1x4oec0ytd:_Components.Text
+  - event_bindings: {click: icon_button_2_click}
+    layout_properties: {}
+    name: icon_button_2
+    properties: {icon: 'mi:person_add_alt'}
+    type: form:dep_lin1x4oec0ytd:_Components.IconButton
   - data_bindings: []
     layout_properties: {}
     name: recipient
     properties: {role: null}
     type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - event_bindings: {click: button_3_click}
+    layout_properties: {}
+    name: button_3
+    properties: {text: Delete last recipient}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
   - event_bindings: {click: icon_button_1_click}
     layout_properties: {}
     name: icon_button_1
