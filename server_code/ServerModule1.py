@@ -35,3 +35,14 @@ def getEmails(user):
 def sendEmail(user,recipient,c):
   for i in recipient:
     app_tables.table_1.add_row(Content=c,Sender=user,Name=i)
+
+@anvil.server.callable
+def addFile(user,f):
+  app_tables.drive.add_row(User=user,File=f)
+
+@anvil.server.callable
+def getFiles(user):
+  x=[]
+  for i in app_tables.drive.search(User=user):
+    x.append(i['File'])
+  return x

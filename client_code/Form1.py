@@ -21,6 +21,9 @@ class Form1(Form1Template):
   def load_click(self, **event_args):
     self.text_box_1.text=anvil.users.get_user(allow_remembered=True)
     self.text_1.text=anvil.server.call('getEmails',user=self.text_box_1.text)
+    for i in anvil.server.call('getFiles',user=self.text_box_1.text):
+      self.layout.add_component(Link(text=i.name,url=i.url))
+      
   def icon_button_1_click(self, **event_args):
     self.text_box_1.text=anvil.users.get_user(allow_remembered=True)
     anvil.server.call('sendEmail',user=self.text_box_1.text,c=self.content.text,recipient=self.rec)
@@ -48,3 +51,14 @@ class Form1(Form1Template):
     except:
       pass
     self.text_6.text=' '.join(self.rec)
+
+  def button_4_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    anvil.users.logout(invalidate_client_objects=False)
+
+  def content_change(self, **event_args):
+    """This method is called when the text in this component is edited."""
+    pass
+  def button_5_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    anvil.server.call('addFile',user=self.text_box_1.text,f=self.file_loader_1.file)
