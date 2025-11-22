@@ -1,19 +1,62 @@
-allow_embedding: false
+allow_embedding: true
 db_schema:
+  files:
+    client: none
+    columns:
+    - admin_ui: {width: 200}
+      name: path
+      type: string
+    - admin_ui: {width: 200}
+      name: file
+      type: media
+    - admin_ui: {width: 200}
+      name: file_version
+      type: string
+    server: full
+    title: Files
   table_1:
     client: none
     columns:
-    - admin_ui: {order: 1, width: 200}
+    - admin_ui: {width: 200}
       name: Name
       type: string
-    - admin_ui: {order: 2, width: 200}
+    - admin_ui: {width: 200}
       name: Content
       type: string
-    - admin_ui: {order: 3, width: 200}
+    - admin_ui: {width: 200}
       name: Sender
       type: string
     server: full
     title: Table 1
+  users:
+    client: none
+    columns:
+    - admin_ui: {width: 200}
+      name: email
+      type: string
+    - admin_ui: {width: 200}
+      name: last_login
+      type: datetime
+    - admin_ui: {width: 200}
+      name: password_hash
+      type: string
+    - admin_ui: {width: 200}
+      name: n_password_failures
+      type: number
+    - admin_ui: {width: 200}
+      name: confirmed_email
+      type: bool
+    - admin_ui: {width: 200}
+      name: remembered_logins
+      type: simpleObject
+    - admin_ui: {width: 200}
+      name: signed_up
+      type: datetime
+    - admin_ui: {width: 200}
+      name: email_confirmation_key
+      type: string
+    server: full
+    title: Users
 dependencies:
 - config: {}
   dep_id: dep_lin1x4oec0ytd
@@ -25,11 +68,21 @@ native_deps: null
 package_name: Chat_App
 runtime_options:
   client_version: '3'
-  server_spec: {base: python310-minimal}
+  server_spec: {base: python310-standard}
   server_version: python3-full
   version: 3
+secrets: null
 services:
 - client_config: {}
   server_config: {}
   source: /runtime/services/tables.yml
+- client_config: {allow_remember_me: true, allow_signup: true, confirm_email: true, enable_automatically: true, remember_me_days: 30, share_login_status: true, use_email: true, use_facebook: true, use_google: true}
+  server_config: {user_table: users}
+  source: /runtime/services/anvil/users.yml
+- client_config: {}
+  server_config: {}
+  source: /runtime/services/google.yml
+- client_config: {}
+  server_config: {app_id: chatapp}
+  source: /runtime/services/facebook.yml
 startup_form: Form1
