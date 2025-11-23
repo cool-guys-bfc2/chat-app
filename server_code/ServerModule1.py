@@ -37,8 +37,8 @@ def sendEmail(user,recipient,c):
     app_tables.table_1.add_row(Content=c,Sender=user,Name=i)
 
 @anvil.server.callable
-def addFile(user,f):
-  app_tables.drive.add_row(User=user,File=f)
+def addFile(user,file):
+  app_tables.drive.add_row(User=user,File=file,Name=file.name)
 
 @anvil.server.callable
 def getFiles(user):
@@ -46,3 +46,8 @@ def getFiles(user):
   for i in app_tables.drive.search(User=user):
     x.append(i['File'])
   return x
+
+@anvil.server.callable
+def deleteFile(filename):
+  for i in app_tables.drive.search(Name=filename):
+    i.delete()

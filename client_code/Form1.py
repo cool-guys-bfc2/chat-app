@@ -14,6 +14,7 @@ class Form1(Form1Template):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.rec=[]
+    self.fileurls={}
     # Any code you write here will run before the form opens.
   def link_1_click(self, **event_args):
     """This method is called clicked"""
@@ -21,9 +22,13 @@ class Form1(Form1Template):
   def load_click(self, **event_args):
     self.text_box_1.text=anvil.users.get_user(allow_remembered=True)
     self.text_1.text=anvil.server.call('getEmails',user=self.text_box_1.text)
-    for i in anvil.server.call('getFiles',user=self.text_box_1.text):
-      self.layout.add_component(Link(text=i.name,url=i.url))
-      
+    files = anvil.server.call('getFiles', user=self.text_box_1.text)
+    self.files.text=''
+    for f in files:
+      x=f.url
+      self.files.text+='\n\n'+f.name+': \n\n'+x
+      print(x)
+      self.fileurls[f.name]=f.url
   def icon_button_1_click(self, **event_args):
     self.text_box_1.text=anvil.users.get_user(allow_remembered=True)
     anvil.server.call('sendEmail',user=self.text_box_1.text,c=self.content.text,recipient=self.rec)
@@ -61,4 +66,21 @@ class Form1(Form1Template):
     pass
   def button_5_click(self, **event_args):
     """This method is called when the component is clicked."""
-    anvil.server.call('addFile',user=self.text_box_1.text,f=self.file_loader_1.file)
+    anvil.server.call('addFile',user=self.text_box_1.text,file=self.file_loader_1.file)
+
+  def button_6_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    try:
+      i=self.delete.text
+      anvil.server.call('deleteFile',filename=i)
+      del self.fileurls[i]
+      files = anvil.server.call('getFiles', user=self.text_box_1.text)
+      self.files.text=''
+      for f in files:
+        x=f.url
+        self.files.text+='\n\n'+f.name+': \n\n'+x
+        print(x)
+        self.fileurls[f.name]=f.url
+      self.delete.text=''
+    except:
+      pass
