@@ -1,0 +1,7 @@
+components:
+- layout_properties: {grid_position: 'UBOLJE,ZXYSIN'}
+  name: google_map_1
+  properties: {height: 427.13671875}
+  type: GoogleMap
+container: {type: ColumnPanel}
+is_package: true

@@ -85,5 +85,6 @@ class Form1(Form1Template):
         print(x)
         self.fileurls[f.name]=f.url
       self.delete.text=''
+      self.error.text='No errors'
     except:
-      pass
+      self.error.text='File does not exist...'
