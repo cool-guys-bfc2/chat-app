@@ -66,7 +66,10 @@ class Form1(Form1Template):
     pass
   def button_5_click(self, **event_args):
     """This method is called when the component is clicked."""
-    anvil.server.call('addFile',user=self.text_box_1.text,file=self.file_loader_1.file)
+    try:
+      anvil.server.call('addFile',user=self.text_box_1.text,file=self.file_loader_1.file)
+    except:
+      pass
 
   def button_6_click(self, **event_args):
     """This method is called when the component is clicked."""
