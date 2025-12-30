@@ -18,8 +18,12 @@ class Form1(Form1Template):
     self.fileurls={}
     # Any code you write here will run before the form opens.
   def pay(self,amount):
-    c=stripe.checkout.charge(amount=amount,currency="USD")
-    print(c)
+    try:
+      c=stripe.checkout.charge(amount=amount,currency="USD")
+      print(c)
+    except:
+      return False
+    return True
   def link_1_click(self, **event_args):
     """This method is called clicked"""
     pass
