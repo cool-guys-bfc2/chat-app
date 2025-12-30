@@ -100,7 +100,7 @@ services:
   server_config: {}
   source: /runtime/services/google.yml
 - client_config: {}
-  server_config: {app_id: chatapp}
+  server_config: {app_id: chatapp, app_secret_enc: B8k1hfNQpbz92KxZj9EXpKYKYraikpNXYwlqCby1EtmpwN92h37l4ecIbYtfuO9iQ05cQEc5CkVhI+FBe79CoR6KP2Zo7LysYdzb7tRtlH7Q3RbcvLYcqDf5ekNkh+nk7kt0dbaOUBlhsNrlzLcmh6xG9wicEUX9MkR7F1SXFp8Xx+owG8XkjcCVxOlbGAShqA==}
   source: /runtime/services/facebook.yml
 - client_config: {}
   server_config: {file_table: files}
