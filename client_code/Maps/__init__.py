@@ -1,5 +1,6 @@
 from ._anvil_designer import MapsTemplate
 from anvil import *
+import stripe.checkout
 import anvil.server
 import m3.components as m3
 import anvil.facebook.auth

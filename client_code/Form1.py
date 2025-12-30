@@ -1,5 +1,6 @@
 from ._anvil_designer import Form1Template
 from anvil import *
+import stripe.checkout
 import anvil.facebook.auth
 import anvil.google.auth, anvil.google.drive
 from anvil.google.drive import app_files
@@ -16,6 +17,9 @@ class Form1(Form1Template):
     self.rec=[]
     self.fileurls={}
     # Any code you write here will run before the form opens.
+  def pay(self,amount):
+    c=stripe.checkout.charge(amount=amount,currency="USD")
+    print(c)
   def link_1_click(self, **event_args):
     """This method is called clicked"""
     pass
