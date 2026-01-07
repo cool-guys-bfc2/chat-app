@@ -1,3 +1,4 @@
+import anvil.secrets
 import anvil.stripe
 import anvil.files
 from anvil.files import data_files
@@ -27,15 +28,15 @@ import anvil.server
 def getEmails(user):
   r=''
   for i in app_tables.table_1.search(Name=user):
-    r+=i['Content']+' from '+i['Sender']+'\n'
+    r+=anvil.secrets.decrypt_with_key('jlsr',i["Content"])+' from '+i['Sender']+'\n'
   for i in app_tables.table_1.search(Sender=user):
-    r+=i['Content']+' to '+i['Name']+'\n'
+    r+=anvil.secrets.decrypt_with_key('jlsr',i["Content"])+' to '+i['Name']+'\n'
   return r
 
 @anvil.server.callable
 def sendEmail(user,recipient,c):
   for i in recipient:
-    app_tables.table_1.add_row(Content=c,Sender=user,Name=i)
+    app_tables.table_1.add_row(Content=anvil.secrets.encrypt_with_key('jlsr',c),Sender=user,Name=i)
 
 @anvil.server.callable
 def addFile(user,file):

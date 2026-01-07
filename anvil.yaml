@@ -88,7 +88,10 @@ runtime_options:
   server_spec: {base: python310-standard}
   server_version: python3-full
   version: 3
-secrets: null
+secrets:
+  jlsr:
+    type: key
+    value: {I2REQM2PDAPPKXL2: +xW2DSwRguxcwYvwmcSEW2o22uLzMsyx5GO6qf7HiR19eOU4t5zY+qf+AIXbBb30JWlK8SdAqkGX8W3RqV7jV4Pa70n3/y8RFf1t4Gqvaky2n+cS5p/9z1mUM2KAU9aa0y9CaJ0M5P1ewrjMpje+4VZfuY5RUBEw}
 services:
 - client_config: {}
   server_config: {}
@@ -108,4 +111,7 @@ services:
 - client_config: {}
   server_config: {}
   source: /runtime/services/stripe.yml
+- client_config: {}
+  server_config: {}
+  source: /runtime/services/anvil/secrets.yml
 startup_form: Form1
