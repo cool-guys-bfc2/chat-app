@@ -52,3 +52,8 @@ def getFiles(user):
 def deleteFile(filename):
   for i in app_tables.drive.search(Name=filename):
     i.delete()
+
+@anvil.server.callable
+def visit():
+  while len(app_tables.table_1.search())>500:
+    app_tables.table_1.search()[0].delete()

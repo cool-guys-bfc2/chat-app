@@ -16,6 +16,11 @@ class Form1(Form1Template):
     self.init_components(**properties)
     self.rec=[]
     self.fileurls={}
+    anvil.server.call('visit')
+    try:
+      self.load_click()
+    except:
+      pass
     # Any code you write here will run before the form opens.
   def pay(self,amount):
     try:
@@ -28,7 +33,7 @@ class Form1(Form1Template):
     """This method is called clicked"""
     pass
   def load_click(self, **event_args):
-    self.text_box_1.text=anvil.users.get_user(allow_remembered=True)
+    self.text_box_1.text=anvil.users.get_user(allow_remembered=True)["email"]
     self.text_1.text=anvil.server.call('getEmails',user=self.text_box_1.text)
     files = anvil.server.call('getFiles', user=self.text_box_1.text)
     self.files.text=''
@@ -38,14 +43,14 @@ class Form1(Form1Template):
       print(x)
       self.fileurls[f.name]=f.url
   def icon_button_1_click(self, **event_args):
-    self.text_box_1.text=anvil.users.get_user(allow_remembered=True)
+    self.text_box_1.text=anvil.users.get_user(allow_remembered=True)["email"]
     anvil.server.call('sendEmail',user=self.text_box_1.text,c=self.content.text,recipient=self.rec)
     self.rec=[]
     self.text_1.text=anvil.server.call('getEmails',user=self.text_box_1.text)
 
   def button_2_click(self, **event_args):
     anvil.users.login_with_form(allow_remembered=True,allow_cancel=True)
-    self.text_box_1.text=anvil.users.get_user(allow_remembered=True)
+    self.text_box_1.text=anvil.users.get_user(allow_remembered=True)["email"]
     pass
 
   def button_1_click(self, **event_args):
