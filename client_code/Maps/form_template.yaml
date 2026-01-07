@@ -1,5 +1,9 @@
 components:
-- layout_properties: {grid_position: 'UBOLJE,ZXYSIN'}
+- layout_properties: {full_width_row: true, grid_position: 'UBOLJE,KBIQMB', row_background: ''}
+  name: link_1
+  properties: {bold: true, font_family: '', icon: 'mi:keyboard_backspace', text: Back, text_color: 'theme:On Primary Container', tooltip: Back to files and emails, url: 'https://fast-small-grison.anvil.app/'}
+  type: form:dep_lin1x4oec0ytd:_Components.Link
+- layout_properties: {grid_position: 'UBOLJE,RUCPOO'}
   name: google_map_1
   properties: {height: 427.13671875}
   type: GoogleMap
