@@ -82,9 +82,6 @@ dependencies:
   dep_id: dep_lin1x4oec0ytd
   resolution_hints: {app_id: 4UK6WHQ6UX7AKELK, name: Material 3 Theme, package_name: m3}
   version: {version_tag: v1.2.6}
-- dep_id: dep_vhyt62mpkoo2l
-  resolution_hints: {app_id: KQWDXWC4TICNLUZX, name: Render engine, package_name: Render_engine}
-  version: {branch: master}
 metadata: {description: A chat, logo_img: 'asset:Chat Logo.png', title: Chat}
 name: Chat App
 native_deps: null
