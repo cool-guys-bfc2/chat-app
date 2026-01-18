@@ -93,4 +93,11 @@ def allow(text):
     anvil.users.get_user(allow_remembered=True)['Services']=text
   else:
     anvil.users.get_user(allow_remembered=True)['Services']+=','+text
-  
+
+@anvil.server.callable
+def update(text):
+  anvil.users.get_user(allow_remembered=True)['Services']=text
+
+@anvil.server.route('/services')
+def manage():
+  return anvil.server.FormResponse('ManageServices')
