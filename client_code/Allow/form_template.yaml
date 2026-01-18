@@ -1,9 +1,19 @@
 components_by_slot:
   content:
+  - layout_properties: {}
+    name: text_1
+    properties: {icon: 'mi:thumbs_up_down', text: Approve service to access your account email}
+    type: form:dep_lin1x4oec0ytd:_Components.Text
   - event_bindings: {}
     layout_properties: {}
     name: button_1
-    properties: {text: 'Allow service to use your account for service '}
+    properties: {bold: false, icon: 'mi:thumb_up', text: 'Allow service to use your account for service '}
     type: form:dep_lin1x4oec0ytd:_Components.Button
+  - event_bindings: {}
+    layout_properties: {}
+    name: button_2
+    properties: {icon: 'mi:thumb_down', text: Disapprove request}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+  navigation: []
 is_package: true
 layout: {type: 'form:dep_lin1x4oec0ytd:Layouts.NavigationDrawerLayout'}
