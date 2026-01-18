@@ -67,8 +67,30 @@ def mail():
 def maps():
   return anvil.server.FormResponse('Maps')
 
-@anvil.server.route('/feedback')
+@anvil.server.route('/feed')
 def feed():
   res=anvil.server.HttpResponse(302,"Redirecting to feedback form...")
   res.headers['Location']='https://flat-tempting-hedgehog.anvil.app'
   return res
+
+@anvil.server.route('/auth/user/:s')
+def auth(s):
+  text=anvil.users.get_user(allow_remembered=True)['email']
+  if s in anvil.users.get_user(allow_remembered=True)['Services'].split(','):
+    return text
+  else:
+    return ""
+
+
+@anvil.server.route('/allow/:service')
+def allows(service):
+  t=anvil.server.AppResponder(data={'service':service})
+  return t.load_form('Allow')
+
+@anvil.server.callable
+def allow(text):
+  if not anvil.users.get_user(allow_remembered=True)['Services']:
+    anvil.users.get_user(allow_remembered=True)['Services']=text
+  else:
+    anvil.users.get_user(allow_remembered=True)['Services']+=','+text
+  

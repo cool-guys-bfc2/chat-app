@@ -72,6 +72,9 @@ db_schema:
     - admin_ui: {order: 9, width: 200}
       name: enabled
       type: bool
+    - admin_ui: {order: 10, width: 200}
+      name: Services
+      type: string
     server: full
     title: Users
 dependencies:
@@ -79,6 +82,9 @@ dependencies:
   dep_id: dep_lin1x4oec0ytd
   resolution_hints: {app_id: 4UK6WHQ6UX7AKELK, name: Material 3 Theme, package_name: m3}
   version: {version_tag: v1.2.6}
+- dep_id: dep_vhyt62mpkoo2l
+  resolution_hints: {app_id: KQWDXWC4TICNLUZX, name: Render engine, package_name: Render_engine}
+  version: {branch: master}
 metadata: {description: A chat, logo_img: 'asset:Chat Logo.png', title: Chat}
 name: Chat App
 native_deps: null
@@ -96,8 +102,22 @@ services:
 - client_config: {}
   server_config: {}
   source: /runtime/services/tables.yml
-- client_config: {allow_remember_me: true, allow_signup: true, confirm_email: true, enable_automatically: true, remember_me_days: 30, share_login_status: true, use_email: true, use_facebook: true, use_google: true}
-  server_config: {user_table: users}
+- client_config: {allow_remember_me: true, allow_signup: true, confirm_email: true, enable_automatically: true, remember_me_days: 30, require_secure_passwords: true, share_login_status: true, use_email: true, use_facebook: true, use_google: true}
+  server_config:
+    email_content:
+      confirm_address:
+        html: |-
+          <p>Thanks for registering your account with us. Please click the following link to confirm that this is your account:</p>
+          <p>{{confirm_link}}</p>
+          <p>Thanks,</p>
+          <p>The team</p>
+      reset_password:
+        html: |-
+          <p>Hi there,</p>
+          <p>You have requested a password reset for your account {{email}}. To reset your password, click the link below:</p>
+          <p>{{reset_link}}</p>
+          <p>This link will expire in ten minutes.</p>
+    user_table: users
   source: /runtime/services/anvil/users.yml
 - client_config: {}
   server_config: {}

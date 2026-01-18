@@ -1,0 +1,9 @@
+components_by_slot:
+  content:
+  - event_bindings: {}
+    layout_properties: {}
+    name: button_1
+    properties: {text: 'Allow service to use your account for service '}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+is_package: true
+layout: {type: 'form:dep_lin1x4oec0ytd:Layouts.NavigationDrawerLayout'}
