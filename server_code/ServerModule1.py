@@ -58,3 +58,17 @@ def deleteFile(filename):
 def visit():
   while len(app_tables.table_1.search())>500:
     app_tables.table_1.search()[0].delete()
+
+@anvil.server.route("/mail")
+def mail():
+  return anvil.server.FormResponse('Form1')
+
+@anvil.server.route('/maps')
+def maps():
+  return anvil.server.FormResponse('Maps')
+
+@anvil.server.route('/feedback')
+def feed():
+  res=anvil.server.HttpResponse(302,"Redirecting to feedback form...")
+  res.headers['Location']='https://flat-tempting-hedgehog.anvil.app'
+  return res
