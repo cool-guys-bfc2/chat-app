@@ -16,7 +16,7 @@ class Form1(Form1Template):
     self.init_components(**properties)
     self.rec=[]
     self.fileurls={}
-    anvil.server.call('visit')
+    anvil.server.call('v2')
     try:
       self.load_click()
     except:

@@ -172,3 +172,8 @@ def export():
   x=app_tables.export.search(Name='main')
   for i in x:
     i['File']=email_csv()
+  app_tables.table_1.search
+
+@anvil.server.callable
+def v2():
+  anvil.server.launch_background_task('export')
