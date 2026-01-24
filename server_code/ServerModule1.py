@@ -62,7 +62,7 @@ def email_csv():
   data_list = [dict(row) for row in rows]
 
   # 3. Generate file content in memory using io.BytesIO
-  output = io.BytesIO()
+  output = io.BytesIO(b"")
   writer = csv.DictWriter(output, fieldnames=data_list[0].keys())
   writer.writeheader()
   writer.writerows(data_list)
@@ -170,8 +170,8 @@ def update(text):
 def manage():
   return anvil.server.FormResponse('ManageServices')
 
-@anvil.server.background_task('export')
-def export():
+@anvil.server.callable
+def v2():
   x=app_tables.export.search(Name='main')
   for i in x:
     if True:
@@ -182,7 +182,3 @@ def export():
   x=app_tables.table_1.search()
   for i in x:
     i.delete()
-
-@anvil.server.callable
-def v2():
-  anvil.server.launch_background_task('export')
