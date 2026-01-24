@@ -10,6 +10,70 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
+import io
+import csv
+import anvil.media
+
+@anvil.server.callable
+def append_to_media(existing_media, new_text):
+  # 1. Get existing content as bytes
+  old_bytes = existing_media.get_bytes()
+
+  # 2. Convert new content to bytes (with a newline if needed)
+  new_bytes = f"\n{new_text}".encode('utf-8')
+
+  # 3. Concatenate and create a new BlobMedia object
+  updated_media = anvil.BlobMedia(
+    content_type=existing_media.content_type,
+    content=old_bytes + new_bytes,
+    name=existing_media.name
+  )
+
+  return updated_media
+
+
+@anvil.server.callable
+def search_csv_media(csv_media, search_column, search_value):
+  # Convert Anvil Media object to a file-like stream
+  csv_bytes = csv_media.get_bytes()
+  csv_string = csv_bytes.decode('utf-8')
+  csv_file = io.StringIO(csv_string)
+
+  reader = csv.DictReader(csv_file)
+  for row in reader:
+    if row.get(search_column) == search_value:
+      return dict(row)  # Return the first matching row as a dictionary
+
+  return None  # No match found
+
+@anvil.server.callable
+def email_csv():
+  """
+  Retrieves data table rows and serializes them into a CSV file 
+  returned as an Anvil Media object.
+  """
+  # 1. Retrieve data
+  rows = app_tables.table_1.search()
+
+  # 2. Convert rows to a list of dictionaries (simple serialization)
+  data_list = [dict(row) for row in rows]
+
+  # 3. Generate file content in memory using io.BytesIO
+  output = io.BytesIO()
+  writer = csv.DictWriter(output, fieldnames=data_list[0].keys())
+  writer.writeheader()
+  writer.writerows(data_list)
+
+  # 4. Create an Anvil Media object
+  media_object = anvil.BlobMedia(
+    content_type="text/csv", 
+    content=output.getvalue(), 
+    name="exported_data.csv"
+  )
+
+  # 5. Return the Media object
+  return append_to_media(app_tables.export.search(Name='main')[0]['File'],media_object)
+
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
@@ -27,9 +91,10 @@ import anvil.server
 @anvil.server.callable
 def getEmails(user):
   r=''
-  for i in app_tables.table_1.search(Name=user):
+  x=app_tables.export.search(Name='main')[0]['File']
+  for i in search_csv_media(x,'Name',user):
     r+=anvil.secrets.decrypt_with_key('jlsr',i["Content"])+' from '+i['Sender']+'\n'
-  for i in app_tables.table_1.search(Sender=user):
+  for i in search_csv_media(x,'Sender',user):
     r+=anvil.secrets.decrypt_with_key('jlsr',i["Content"])+' to '+i['Name']+'\n'
   return r
 
@@ -101,3 +166,9 @@ def update(text):
 @anvil.server.route('/services')
 def manage():
   return anvil.server.FormResponse('ManageServices')
+
+@anvil.server.background_task('export')
+def export():
+  x=app_tables.export.search(Name='main')
+  for i in x:
+    i['File']=email_csv()
