@@ -171,8 +171,13 @@ def manage():
 def export():
   x=app_tables.export.search(Name='main')
   for i in x:
-    i['File']=email_csv()
-  app_tables.table_1.search
+    try:
+      i['File']=email_csv()
+    except:
+      i['File']=anvil.BlobMedia('text/plain','')
+  x=app_tables.table_1.search()
+  for i in x:
+    i.delete()
 
 @anvil.server.callable
 def v2():
