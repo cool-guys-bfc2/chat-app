@@ -71,7 +71,13 @@ def email_csv():
     return None
 
     # Convert rows to list of dicts
-  data_list = [dict(row) for row in rows]
+  data_list = []
+  for r in rows:
+    data_list.append({
+      'Name': r['Name'],
+      'Sender': r['Sender'],
+      'Content': r['Content']
+    })
 
   # Use StringIO to build the CSV string
   output = io.StringIO()
