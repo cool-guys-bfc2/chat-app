@@ -35,16 +35,19 @@ def append_to_media(existing_media, new_text):
 @anvil.server.callable
 def search_csv_media(csv_media, search_column, search_value):
   # Convert Anvil Media object to a file-like stream
-  csv_bytes = csv_media.get_bytes()
+  try:
+    csv_bytes = csv_media.get_bytes()
+  except:
+    return []
   csv_string = csv_bytes.decode('utf-8')
   csv_file = io.StringIO(csv_string)
-
+  x=[]
   reader = csv.DictReader(csv_file)
   for row in reader:
     if row.get(search_column) == search_value:
-      return dict(row)  # Return the first matching row as a dictionary
+      x.append(dict(row))  # Return the first matching row as a dictionary
 
-  return None  # No match found
+  return x
 
 @anvil.server.callable
 def email_csv():
@@ -171,10 +174,11 @@ def manage():
 def export():
   x=app_tables.export.search(Name='main')
   for i in x:
-    try:
+    if True:
       i['File']=email_csv()
-    except:
-      i['File']=anvil.BlobMedia('text/plain','')
+    else:
+      i['File']=anvil.BlobMedia('text/plain',"".encode('utf-8'))
+      return
   x=app_tables.table_1.search()
   for i in x:
     i.delete()
