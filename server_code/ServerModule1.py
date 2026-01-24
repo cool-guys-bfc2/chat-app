@@ -76,10 +76,13 @@ def feed():
 @anvil.server.route('/auth/user/:s')
 def auth(s):
   text=anvil.users.get_user(allow_remembered=True)['email']
-  if s in anvil.users.get_user(allow_remembered=True)['Services'].split(','):
-    return text
-  else:
-    return ""
+  x=anvil.users.get_user(allow_remembered=True)['Services']
+  if x:
+    if s in x.split(','):
+      return text
+  r=anvil.server.HttpResponse(302,"Redirecting to allow...")
+  r.headers['Location']='https://fast-small-grison.anvil.app/allow/'+s
+  return r
 
 
 @anvil.server.route('/allow/:service')
