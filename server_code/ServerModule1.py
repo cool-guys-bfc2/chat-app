@@ -143,7 +143,10 @@ def v2():
   """Archive current table to CSV and clear table."""
   main_rows = app_tables.export.search(Name='main')
   for row in main_rows:
-    new_file = email_csv()
+    try:
+      new_file = email_csv()
+    except:
+      new_file=None
     if new_file:
       row['File'] = new_file
 
