@@ -14,118 +14,144 @@ import io
 import csv
 import anvil.media
 
+# --- Media Helper Functions ---
+
 @anvil.server.callable
-def append_to_media(existing_media, new_text):
-  # 1. Get existing content as bytes
+def append_to_media(existing_media, new_media_to_append):
+  """
+    Takes an existing Media object and appends the content of a second 
+    Media object to it.
+    """
+  # 1. Get existing content
   old_bytes = existing_media.get_bytes()
 
-  # 2. Convert new content to bytes (with a newline if needed)
-  new_bytes = f"\n{new_text}".encode('utf-8')
+  # 2. Get new content
+  new_bytes = new_media_to_append.get_bytes()
 
-  # 3. Concatenate and create a new BlobMedia object
-  updated_media = anvil.BlobMedia(
+  # 3. Concatenate (adding a newline to separate CSV records if necessary)
+  updated_content = old_bytes + b"\n" + new_bytes
+
+  # 4. Create and return a new BlobMedia object
+  return anvil.BlobMedia(
     content_type=existing_media.content_type,
-    content=old_bytes + new_bytes,
+    content=updated_content,
     name=existing_media.name
   )
 
-  return updated_media
-
-
 @anvil.server.callable
 def search_csv_media(csv_media, search_column, search_value):
-  # Convert Anvil Media object to a file-like stream
+  """
+    Reads a Media object as a CSV without saving to disk.
+    """
   try:
     csv_bytes = csv_media.get_bytes()
-  except:
-    return []
-  csv_string = csv_bytes.decode('utf-8')
-  csv_file = io.StringIO(csv_string)
-  x=[]
-  reader = csv.DictReader(csv_file)
-  for row in reader:
-    if row.get(search_column) == search_value:
-      x.append(dict(row))  # Return the first matching row as a dictionary
+    # Decode bytes to string for StringIO
+    csv_string = csv_bytes.decode('utf-8')
+    csv_file = io.StringIO(csv_string)
 
-  return x
+    results = []
+    reader = csv.DictReader(csv_file)
+    for row in reader:
+      if row.get(search_column) == search_value:
+        results.append(dict(row))
+    return results
+  except Exception as e:
+    print(f"Error reading CSV media: {e}")
+    return []
+
+# --- Email and Data Management ---
 
 @anvil.server.callable
 def email_csv():
   """
-  Retrieves data table rows and serializes them into a CSV file 
-  returned as an Anvil Media object.
-  """
-  # 1. Retrieve data
+    Retrieves data table rows and serializes them into a CSV Media object.
+    """
   rows = app_tables.table_1.search()
+  if not rows:
+    return None
 
-  # 2. Convert rows to a list of dictionaries (simple serialization)
+    # Convert rows to list of dicts
   data_list = [dict(row) for row in rows]
 
-  # 3. Generate file content in memory using io.BytesIO
-  output = io.BytesIO(b"")
+  # Use StringIO to build the CSV string
+  output = io.StringIO()
   writer = csv.DictWriter(output, fieldnames=data_list[0].keys())
   writer.writeheader()
   writer.writerows(data_list)
 
-  # 4. Create an Anvil Media object
+  # Convert string to bytes for BlobMedia
   media_object = anvil.BlobMedia(
     content_type="text/csv", 
-    content=output.getvalue(), 
+    content=output.getvalue().encode('utf-8'), 
     name="exported_data.csv"
   )
 
-  # 5. Return the Media object
-  return append_to_media(app_tables.export.search(Name='main')[0]['File'],media_object)
-
-
-# This is a server module. It runs on the Anvil server,
-# rather than in the user's browser.
-#
-# To allow anvil.server.call() to call functions here, we mark
-# them with @anvil.server.callable.
-# Here is an example - you can replace it with your own:
-#
-# @anvil.server.callable
-# def say_hello(name):
-#   print("Hello, " + name + "!")
-#   return 42
-#
+  # Get the master file and append this new batch to it
+  master_row = app_tables.export.search(Name='main')[0]
+  return append_to_media(master_row['File'], media_object)
 
 @anvil.server.callable
 def getEmails(user):
-  r=''
-  x=app_tables.export.search(Name='main')[0]['File']
-  for i in search_csv_media(x,'Name',user):
-    r+=anvil.secrets.decrypt_with_key('jlsr',i["Content"])+' from '+i['Sender']+'\n'
-  for i in search_csv_media(x,'Sender',user):
-    r+=anvil.secrets.decrypt_with_key('jlsr',i["Content"])+' to '+i['Name']+'\n'
+  r = ''
+  x = app_tables.export.search(Name='main')[0]['File']
+  # Search where user is the Recipient (Name)
+  for i in search_csv_media(x, 'Name', user):
+    content = anvil.secrets.decrypt_with_key('jlsr', i["Content"])
+    r += f"{content} from {i['Sender']}\n"
+    # Search where user is the Sender
+  for i in search_csv_media(x, 'Sender', user):
+    content = anvil.secrets.decrypt_with_key('jlsr', i["Content"])
+    r += f"{content} to {i['Name']}\n"
   return r
 
 @anvil.server.callable
-def sendEmail(user,recipient,c):
+def sendEmail(user, recipient, c):
   for i in recipient:
-    app_tables.table_1.add_row(Content=anvil.secrets.encrypt_with_key('jlsr',c),Sender=user,Name=i)
+    app_tables.table_1.add_row(
+      Content=anvil.secrets.encrypt_with_key('jlsr', c),
+      Sender=user,
+      Name=i
+    )
+
+# --- File Management ---
 
 @anvil.server.callable
-def addFile(user,file):
-  app_tables.drive.add_row(User=user,File=file,Name=file.name)
+def addFile(user, file):
+  app_tables.drive.add_row(User=user, File=file, Name=file.name)
 
 @anvil.server.callable
 def getFiles(user):
-  x=[]
-  for i in app_tables.drive.search(User=user):
-    x.append(i['File'])
-  return x
+  return [i['File'] for i in app_tables.drive.search(User=user)]
 
 @anvil.server.callable
 def deleteFile(filename):
   for i in app_tables.drive.search(Name=filename):
     i.delete()
 
+# --- Housekeeping and Routes ---
+
 @anvil.server.callable
 def visit():
-  while len(app_tables.table_1.search())>500:
-    app_tables.table_1.search()[0].delete()
+  """Keep table size manageable."""
+  rows = app_tables.table_1.search()
+  while len(rows) > 500:
+    rows[0].delete()
+    rows = app_tables.table_1.search()
+
+@anvil.server.callable
+def v2():
+  """Archive current table to CSV and clear table."""
+  main_rows = app_tables.export.search(Name='main')
+  for row in main_rows:
+    new_file = email_csv()
+    if new_file:
+      row['File'] = new_file
+
+    # Clear table after archiving
+  for i in app_tables.table_1.search():
+    i.delete()
+
+# --- HTTP Routes ---
 
 @anvil.server.route("/mail")
 def mail():
@@ -137,48 +163,35 @@ def maps():
 
 @anvil.server.route('/feed')
 def feed():
-  res=anvil.server.HttpResponse(302,"Redirecting to feedback form...")
-  res.headers['Location']='https://flat-tempting-hedgehog.anvil.app'
+  res = anvil.server.HttpResponse(302)
+  res.headers['Location'] = 'https://flat-tempting-hedgehog.anvil.app'
   return res
 
 @anvil.server.route('/auth/user/:s')
 def auth(s):
-  text=anvil.users.get_user(allow_remembered=True)['email']
-  if s in anvil.users.get_user(allow_remembered=True)['Services'].split(','):
-    return text
-  else:
-    return ""
-
+  user = anvil.users.get_user(allow_remembered=True)
+  if not user: return ""
+  services = user['Services'].split(',') if user['Services'] else []
+  return user['email'] if s in services else ""
 
 @anvil.server.route('/allow/:service')
 def allows(service):
-  t=anvil.server.AppResponder(data={'service':service})
+  t = anvil.server.AppResponder(data={'service': service})
   return t.load_form('Allow')
 
 @anvil.server.callable
 def allow(text):
-  if not anvil.users.get_user(allow_remembered=True)['Services']:
-    anvil.users.get_user(allow_remembered=True)['Services']=text
+  user = anvil.users.get_user(allow_remembered=True)
+  if not user['Services']:
+    user['Services'] = text
   else:
-    anvil.users.get_user(allow_remembered=True)['Services']+=','+text
+    user['Services'] += ',' + text
 
 @anvil.server.callable
 def update(text):
-  anvil.users.get_user(allow_remembered=True)['Services']=text
+  user = anvil.users.get_user(allow_remembered=True)
+  user['Services'] = text
 
 @anvil.server.route('/services')
 def manage():
   return anvil.server.FormResponse('ManageServices')
-
-@anvil.server.callable
-def v2():
-  x=app_tables.export.search(Name='main')
-  for i in x:
-    if True:
-      i['File']=email_csv()
-    else:
-      i['File']=anvil.BlobMedia('text/plain',"".encode('utf-8'))
-      return
-  x=app_tables.table_1.search()
-  for i in x:
-    i.delete()
