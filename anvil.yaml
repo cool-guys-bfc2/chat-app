@@ -86,6 +86,9 @@ db_schema:
     - admin_ui: {width: 200}
       name: Services
       type: string
+    - admin_ui: {order: 11, width: 200}
+      name: emails
+      type: simpleObject
     server: full
     title: Users
 dependencies:

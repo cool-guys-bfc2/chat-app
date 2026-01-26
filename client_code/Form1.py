@@ -101,3 +101,9 @@ class Form1(Form1Template):
       self.error.text='No errors'
     except:
       self.error.text='File does not exist...'
+
+  @handle("button_7", "click")
+  def button_7_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    x=self.delete.text
+    anvil.server.call('delemail',x)

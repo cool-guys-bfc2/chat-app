@@ -31,12 +31,38 @@ def getEmails(user):
     r+=anvil.secrets.decrypt_with_key('jlsr',i["Content"])+' from '+i['Sender']+'\n'
   for i in app_tables.table_1.search(Sender=user):
     r+=anvil.secrets.decrypt_with_key('jlsr',i["Content"])+' to '+i['Name']+'\n'
+  u=app_tables.users.get(email=user)
+  if u['emails']:
+    for i in u['emails']:
+      r+=anvil.secrets.decrypt_with_key('jlsr',i["Content"])+' from '+i['Sender']+'\n'
   return r
 
 @anvil.server.callable
 def sendEmail(user,recipient,c):
   for i in recipient:
-    app_tables.table_1.add_row(Content=anvil.secrets.encrypt_with_key('jlsr',c),Sender=user,Name=i)
+    #app_tables.table_1.add_row(Content=anvil.secrets.encrypt_with_key('jlsr',c),Sender=user,Name=i)
+    x=app_tables.users.get(email=i)
+    if not x:
+      return
+    else:
+      x=x['emails']
+    if not x:
+      y=[]
+    else:
+      y=x
+    y.append({'Content':anvil.secrets.encrypt_with_key('jlsr',c),'Sender':user})
+    app_tables.users.get(email=i)['emails']=y
+
+@anvil.server.callable
+def delemail(id):
+  x=anvil.users.get_user(allow_remembered=True)
+  if x['emails']:
+    try:
+      del x['emails'][id-1]
+    except:
+      pass
+
+
 
 @anvil.server.callable
 def addFile(user,file):
