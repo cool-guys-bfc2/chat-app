@@ -57,13 +57,9 @@ def sendEmail(user,recipient,c):
 def delemail(id):
   x=anvil.users.get_user(allow_remembered=True)
   if x['emails']:
-    try:
-      y=x['emails']
-      del y[id-1]
-      anvil.users.get_user(allow_remembered=True)['emails']=y
-    except:
-      print('Error')
-
+    y=x['emails']
+    del y[int(id)-1]
+    anvil.users.get_user(allow_remembered=True)['emails']=y
 
 
 @anvil.server.callable
