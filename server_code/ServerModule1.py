@@ -58,9 +58,11 @@ def delemail(id):
   x=anvil.users.get_user(allow_remembered=True)
   if x['emails']:
     try:
-      del x['emails'][id-1]
+      y=x['emails']
+      del y[id-1]
+      anvil.users.get_user(allow_remembered=True)['emails']=y
     except:
-      pass
+      print('Error')
 
 
 
