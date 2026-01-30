@@ -34,7 +34,7 @@ class Form1(Form1Template):
     pass
   def load_click(self, **event_args):
     self.text_box_1.text=anvil.users.get_user(allow_remembered=True)["email"]
-    self.text_1.text=anvil.server.call('getEmails',user=self.text_box_1.text)
+    self.text_1.text=anvil.server.call('getEmails',user=self.text_box_1.text).replace(self.text_box_1.text,"You")
     files = anvil.server.call('getFiles', user=self.text_box_1.text)
     self.files.text=''
     for f in files:

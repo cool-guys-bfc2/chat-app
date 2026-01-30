@@ -61,6 +61,36 @@ def delemail(id):
     del y[int(id)-1]
     anvil.users.get_user(allow_remembered=True)['emails']=y
 
+@anvil.server.background_task
+def videotask(image):
+  anvil.users.get_user()["Image"]=image
+
+@anvil.server.callable
+def video(image):
+  user = anvil.users.get_user()
+  if user:
+    # Save the latest video chunk to the user's row
+    user["Image"] = image
+
+@anvil.server.callable
+def getmeet():
+  user = anvil.users.get_user()
+  if not user or not user['Meet_Name']:
+    return []
+
+    # Get all users in the same meeting except yourself
+  others = app_tables.users.search(
+    Meet_Name=user['Meet_Name']
+  )
+
+  # Return their latest "Image" (video segment)
+  return [r['Image'] for r in others if r != user and r['Image']]
+
+@anvil.server.callable
+def setmeet(meet_id):
+  user = anvil.users.get_user()
+  if user:
+    user["Meet_Name"] = meet_id
 
 @anvil.server.callable
 def addFile(user,file):
@@ -86,6 +116,11 @@ def visit():
 @anvil.server.route("/mail")
 def mail():
   return anvil.server.FormResponse('Form1')
+
+@anvil.server.route('/meet/:id')
+def meet(id):
+  setmeet(id)
+  return anvil.server.FormResponse('Meet')
 
 @anvil.server.route('/maps')
 def maps():
