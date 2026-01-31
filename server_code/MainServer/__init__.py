@@ -141,7 +141,7 @@ def feed():
   res.headers['Location']='https://flat-tempting-hedgehog.anvil.app'
   return res
 
-@anvil.server.route('/auth/user/:s')
+@anvil.server.route('/auth/user/:s',enable_cors=True)
 def auth(s):
   text=anvil.users.get_user(allow_remembered=True)['email']
   x=anvil.users.get_user(allow_remembered=True)['Services']
