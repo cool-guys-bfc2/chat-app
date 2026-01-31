@@ -31,6 +31,10 @@ components_by_slot:
     properties: {icon: 'mi:stacked_email', italic: true, text: Load your emails}
     type: form:dep_lin1x4oec0ytd:_Components.Text
   - layout_properties: {}
+    name: navigation_link_3
+    properties: {bold: false, icon: 'mi:file_open', navigate_to: Files, text: Drive}
+    type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+  - layout_properties: {}
     name: text_7
     properties: {icon: 'mi:user_attributes', text: User Management}
     type: form:dep_lin1x4oec0ytd:_Components.Text
