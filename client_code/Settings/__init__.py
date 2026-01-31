@@ -47,3 +47,16 @@ class Settings(SettingsTemplate):
     self.text_box_1.text=",".join(y)
     self.text_box_1_change()
     self.text_area_1.text=""
+
+  @handle("button_2", "click")
+  def button_2_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    x=self.text_box_1.text
+    y=x.split(',')
+    try:
+      y.remove(self.text_area_1.text)
+    except:
+      pass
+    self.text_box_1.text=",".join(y)
+    self.text_box_1_change()
+    self.text_area_1.text=''

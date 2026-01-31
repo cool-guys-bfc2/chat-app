@@ -3,7 +3,7 @@ components_by_slot:
   - event_bindings: {}
     layout_properties: {}
     name: file_loader_1
-    properties: {icon: 'mi:face', text: Upload profile image}
+    properties: {align: center, icon: 'mi:face', text: Upload profile image}
     type: form:dep_lin1x4oec0ytd:_Components.FileLoader
   - layout_properties: {}
     name: image_1
@@ -27,6 +27,11 @@ components_by_slot:
     layout_properties: {}
     name: button_1
     properties: {icon: 'mi:people', text: Add Contact}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+  - event_bindings: {}
+    layout_properties: {}
+    name: button_2
+    properties: {icon: 'mi:delete', text: Delete Contact}
     type: form:dep_lin1x4oec0ytd:_Components.Button
 is_package: true
 layout: {type: 'form:dep_lin1x4oec0ytd:Layouts.NavigationDrawerLayout'}
