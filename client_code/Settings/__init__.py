@@ -18,7 +18,7 @@ class Settings(SettingsTemplate):
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
     try:
-      self.image_1.source=anvil.server.call('pic')
+      self.image_1.source=anvil.server.call_s('pic')
     except:
       pass
     try:
@@ -28,10 +28,22 @@ class Settings(SettingsTemplate):
   @handle("file_loader_1", "change")
   def file_loader_1_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
-    anvil.server.call('profile',file)
+    anvil.server.call_s('profile',file)
     self.image_1.source=file
 
   @handle("text_box_1", "change")
   def text_box_1_change(self, **event_args):
     """This method is called when the text in this component is edited."""
-    anvil.users.get_user()["contacts"]=self.text_box_1.text
+    with anvil.server.no_loading_indicator:
+      anvil.users.get_user()["contacts"]=self.text_box_1.text
+
+  @handle("button_1", "click")
+  def button_1_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    x=self.text_box_1.text
+    y=x.split(",")
+    if self.text_area_1.text!="":
+      y.append(self.text_area_1.text)
+    self.text_box_1.text=",".join(y)
+    self.text_box_1_change()
+    self.text_area_1.text=""
