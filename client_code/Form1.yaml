@@ -32,7 +32,7 @@ components_by_slot:
     type: form:dep_lin1x4oec0ytd:_Components.Text
   - layout_properties: {}
     name: navigation_link_3
-    properties: {bold: false, icon: 'mi:file_open', navigate_to: Files, text: Drive}
+    properties: {bold: false, icon: 'mi:apps', navigate_to: Apps, text: Apps}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
   - layout_properties: {}
     name: text_7
@@ -113,7 +113,7 @@ components_by_slot:
   - data_bindings: []
     layout_properties: {}
     name: recipient
-    properties: {display_italic: true, label: person to recieve, role: null}
+    properties: {display_italic: true, label: '', role: null}
     type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
   - event_bindings: {click: icon_button_2_click}
     layout_properties: {}

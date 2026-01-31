@@ -54,7 +54,7 @@ db_schema:
     server: full
     title: Table 1
   users:
-    client: none
+    client: full
     columns:
     - admin_ui: {width: 200}
       name: email
@@ -92,6 +92,12 @@ db_schema:
     - admin_ui: {order: 12, width: 200}
       name: Files
       type: simpleObject
+    - admin_ui: {order: 13, width: 200}
+      name: Profile
+      type: media
+    - admin_ui: {order: 14, width: 200}
+      name: contacts
+      type: string
     server: full
     title: Users
 dependencies:
@@ -99,10 +105,10 @@ dependencies:
   dep_id: dep_lin1x4oec0ytd
   resolution_hints: {app_id: 4UK6WHQ6UX7AKELK, name: Material 3 Theme, package_name: m3}
   version: {version_tag: v1.2.6}
-metadata: {description: A chat, logo_img: 'asset:Chat Logo.png', title: Chat}
-name: Chat App
+metadata: {description: A chat, logo_img: 'asset:Chat Logo.png', title: NextServers}
+name: Next Servers
 native_deps: null
-package_name: Chat_App
+package_name: Next_Servers
 runtime_options:
   client_version: '3'
   server_spec: {base: python310-standard}
@@ -114,7 +120,7 @@ secrets:
     value: {I2REQM2PDAPPKXL2: +xW2DSwRguxcwYvwmcSEW2o22uLzMsyx5GO6qf7HiR19eOU4t5zY+qf+AIXbBb30JWlK8SdAqkGX8W3RqV7jV4Pa70n3/y8RFf1t4Gqvaky2n+cS5p/9z1mUM2KAU9aa0y9CaJ0M5P1ewrjMpje+4VZfuY5RUBEw}
 services:
 - client_config: {}
-  server_config: {}
+  server_config: {auto_create_missing_columns: false}
   source: /runtime/services/tables.yml
 - client_config: {allow_remember_me: true, allow_signup: true, confirm_email: true, enable_automatically: true, remember_me_days: 30, require_secure_passwords: true, share_login_status: true, use_email: true, use_facebook: true, use_google: true}
   server_config:

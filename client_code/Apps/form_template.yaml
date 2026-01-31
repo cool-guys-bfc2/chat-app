@@ -1,0 +1,18 @@
+components_by_slot:
+  content: []
+  navigation:
+  - layout_properties: {}
+    name: navigation_link_1
+    properties: {icon: 'mi:map', navigate_to: Maps, text: Maps}
+    type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+  - event_bindings: {}
+    layout_properties: {}
+    name: navigation_link_2
+    properties: {icon: 'mi:settings', navigate_to: Settings, text: Setttings}
+    type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+  - layout_properties: {}
+    name: navigation_link_3
+    properties: {icon: 'mi:contacts_product', navigate_to: Contact, text: Contact}
+    type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+is_package: true
+layout: {type: 'form:dep_lin1x4oec0ytd:Layouts.NavigationDrawerLayout'}

@@ -108,6 +108,15 @@ def deleteFile(filename):
   for i in app_tables.drive.search(Name=filename):
     i.delete()
 
+
+@anvil.server.callable
+def profile(f):
+  anvil.users.get_user(allow_remembered=True)['Profile']=f
+
+@anvil.server.callable
+def pic():
+  return anvil.users.get_user()["Profile"]
+
 @anvil.server.callable
 def visit():
   while len(app_tables.table_1.search())>500:
@@ -163,3 +172,16 @@ def update(text):
 @anvil.server.route('/services')
 def manage():
   return anvil.server.FormResponse('ManageServices')
+
+@anvil.server.route('/apps')
+def apps():
+  return anvil.server.FormResponse('Apps')
+
+@anvil.server.route('/settings')
+def settings():
+  return anvil.server.FormResponse('Settings')
+
+@anvil.server.route('/send/:p')
+def send(p):
+  t=anvil.server.AppResponder(data={'contact':p})
+  return t.load_form('Form1')

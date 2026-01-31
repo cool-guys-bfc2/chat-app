@@ -14,6 +14,11 @@ class Form1(Form1Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    try:
+      if 'contact' in anvil.server.startup_data:
+        self.recipient.text=anvil.server.startup_data['contact']
+    except:
+      pass
     self.rec=[]
     self.fileurls={}
     anvil.server.call('visit')
