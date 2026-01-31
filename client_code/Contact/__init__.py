@@ -28,3 +28,9 @@ class Contact(ContactTemplate):
     """This method is called when the component is clicked."""
     x=self.dropdown_menu_1.selected_value
     anvil.js.window.open('https://fast-small-grison.anvil.app/send/'+x)
+
+  @handle("dropdown_menu_1", "change")
+  def dropdown_menu_1_change(self, **event_args):
+    """This method is called when an item is selected"""
+    x=self.dropdown_menu_1.selected_value
+    self.image_1.source=anvil.server.call_s('extpic',x)

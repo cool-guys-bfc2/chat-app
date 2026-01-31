@@ -118,6 +118,13 @@ def pic():
   return anvil.users.get_user()["Profile"]
 
 @anvil.server.callable
+def extpic(uuid):
+  try:
+    return app_tables.users.get(email=uuid)['Profile']
+  except:
+    return None
+
+@anvil.server.callable
 def visit():
   while len(app_tables.table_1.search())>500:
     app_tables.table_1.search()[0].delete()
