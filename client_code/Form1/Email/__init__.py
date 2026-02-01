@@ -29,4 +29,5 @@ class Email(EmailTemplate):
   @handle("button_2", "click")
   def button_2_click(self, **event_args):
     """This method is called when the component is clicked."""
-    anvil.server.call_s('delemail',self.item['num'])
+    if confirm("Do you wish to continue?"):
+      anvil.server.call_s('delemail',self.item['num'])
