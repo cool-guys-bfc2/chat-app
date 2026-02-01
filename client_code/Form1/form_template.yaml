@@ -4,11 +4,17 @@ components_by_slot:
     name: menu_item_1
     properties: {}
     type: form:dep_lin1x4oec0ytd:_Components.MenuItem
+  app_bar_title: []
   content:
   - layout_properties: {}
     name: text_1
     properties: {visible: true}
     type: form:dep_lin1x4oec0ytd:_Components.Text
+  - event_bindings: {}
+    layout_properties: {}
+    name: toggle_icon_button_3
+    properties: {appearance: filled, icon: 'mi:mail', selected: true}
+    type: form:dep_lin1x4oec0ytd:_Components.ToggleIconButton
   - layout_properties: {}
     name: text_5
     properties: {icon: 'mi:person', text: Your ID, visible: false}
@@ -17,6 +23,10 @@ components_by_slot:
     name: navigation_link_2
     properties: {icon: 'mi:settings_b_roll', navigate_to: ManageServices, text: Manage Services}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+  - layout_properties: {}
+    name: view
+    properties: {item_template: Form1.Email, visible: true}
+    type: RepeatingPanel
   - event_bindings: {}
     layout_properties: {}
     name: button_7
@@ -30,6 +40,10 @@ components_by_slot:
     name: text_4
     properties: {icon: 'mi:stacked_email', italic: true, text: Load your emails}
     type: form:dep_lin1x4oec0ytd:_Components.Text
+  - layout_properties: {}
+    name: toggle_icon_button_2
+    properties: {}
+    type: form:dep_lin1x4oec0ytd:_Components.ToggleIconButton
   - layout_properties: {}
     name: navigation_link_3
     properties: {bold: false, icon: 'mi:apps', navigate_to: Apps, text: Apps}
@@ -139,5 +153,5 @@ components_by_slot:
     name: button_5
     properties: {text: Add}
     type: form:dep_lin1x4oec0ytd:_Components.Button
-is_package: false
+is_package: true
 layout: {type: 'form:dep_lin1x4oec0ytd:Layouts.NavigationDrawerLayout'}

@@ -10,6 +10,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 import m3.components as m3
+from .Email import Email
+
 class Form1(Form1Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -37,9 +39,21 @@ class Form1(Form1Template):
   def link_1_click(self, **event_args):
     """This method is called clicked"""
     pass
+  def init_email(self,emails):
+    x=[]
+    ind=1
+    for i in emails:
+      ix=i.replace(" to "," from ").split(" from ")
+      try:
+        x.append({"email":ix[1],"content":ix[0],"num":ind})
+      except:
+        pass
+      ind+=1
+    self.view.items=x
   def load_click(self, **event_args):
     self.text_box_1.text=anvil.users.get_user(allow_remembered=True)["email"]
     self.text_1.text=anvil.server.call('getEmails',user=self.text_box_1.text).replace(self.text_box_1.text,"You")
+    self.init_email(self.text_1.text.split("\n"))
     files = anvil.server.call('getFiles', user=self.text_box_1.text)
     self.files.text=''
     for f in files:
@@ -112,3 +126,8 @@ class Form1(Form1Template):
     """This method is called when the component is clicked."""
     x=self.delete.text
     anvil.server.call('delemail',x)
+
+  @handle("toggle_icon_button_3", "click")
+  def toggle_icon_button_3_click(self, **event_args):
+    self.view.visible=not self.view.visible
+       
