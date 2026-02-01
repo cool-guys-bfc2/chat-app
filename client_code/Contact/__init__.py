@@ -34,3 +34,7 @@ class Contact(ContactTemplate):
     """This method is called when an item is selected"""
     x=self.dropdown_menu_1.selected_value
     self.image_1.source=anvil.server.call_s('extpic',x)
+    try:
+      self.text_1.text=app_tables.users.get(email=x)['Name']
+    except:
+      self.text_1.text=""

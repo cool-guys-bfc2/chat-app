@@ -98,6 +98,9 @@ db_schema:
     - admin_ui: {order: 14, width: 200}
       name: contacts
       type: string
+    - admin_ui: {order: 15, width: 200}
+      name: Name
+      type: string
     server: full
     title: Users
 dependencies:

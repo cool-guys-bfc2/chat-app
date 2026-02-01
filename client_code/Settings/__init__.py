@@ -60,3 +60,8 @@ class Settings(SettingsTemplate):
     self.text_box_1.text=",".join(y)
     self.text_box_1_change()
     self.text_area_1.text=''
+
+  @handle("text_box_2", "change")
+  def text_box_2_change(self, **event_args):
+    """This method is called when the text in this component is edited."""
+    anvil.users.get_user()['Name']=self.text_box_2.text
