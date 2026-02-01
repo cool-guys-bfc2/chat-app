@@ -25,6 +25,10 @@ class Settings(SettingsTemplate):
       self.text_box_1.text=anvil.users.get_user()['contacts']
     except:
       pass
+    try:
+      self.text_box_2.text=anvil.users.get_user()['Name']
+    except:
+      pass
   @handle("file_loader_1", "change")
   def file_loader_1_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""

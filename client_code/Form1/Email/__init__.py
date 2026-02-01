@@ -17,6 +17,7 @@ class Email(EmailTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.heading_1.text="From: "+self.item['email']
+    self.link_1.url='https://fast-small-grison.anvil.app/send/'+self.item['email'].replace('You',anvil.users.get_user()['email'])
     self.heading_1.text=self.heading_1.text.split('@')[0]
     self.text_1.text=self.item['content']
     # Any code you write here will run before the form opens.

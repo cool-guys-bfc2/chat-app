@@ -14,17 +14,6 @@ db_schema:
       type: string
     server: full
     title: Drive
-  export:
-    client: none
-    columns:
-    - admin_ui: {width: 200}
-      name: Name
-      type: string
-    - admin_ui: {width: 200}
-      name: File
-      type: media
-    server: full
-    title: Export Build
   files:
     client: none
     columns:
