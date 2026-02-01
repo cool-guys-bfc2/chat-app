@@ -3,11 +3,11 @@ components_by_slot:
   - event_bindings: {}
     layout_properties: {}
     name: file_loader_1
-    properties: {align: center, icon: 'mi:face', text: Upload profile image}
+    properties: {align: full, icon: 'mi:face', text: Upload profile image}
     type: form:dep_lin1x4oec0ytd:_Components.FileLoader
   - layout_properties: {}
     name: image_1
-    properties: {}
+    properties: {source: _/theme/designer_icons/avatar.svg}
     type: Image
   - event_bindings: {}
     layout_properties: {}
