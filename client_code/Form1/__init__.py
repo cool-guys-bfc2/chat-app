@@ -63,9 +63,12 @@ class Form1(Form1Template):
       self.fileurls[f.name]=f.url
   def icon_button_1_click(self, **event_args):
     self.text_box_1.text=anvil.users.get_user(allow_remembered=True)["email"]
-    anvil.server.call('sendEmail',user=self.text_box_1.text,c=self.content.text,recipient=self.rec)
+    anvil.server.call_s('sendEmail',user=self.text_box_1.text,c=self.content.text,recipient=self.rec)
     self.rec=[]
-    self.text_1.text=anvil.server.call('getEmails',user=self.text_box_1.text)
+    self.text_1.text=anvil.server.call_s('getEmails',user=self.text_box_1.text)
+    x=Notification('Message Sent')
+    x.show()
+    
 
   def button_2_click(self, **event_args):
     anvil.users.login_with_form(allow_remembered=True,allow_cancel=True)

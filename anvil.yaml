@@ -107,7 +107,7 @@ dependencies:
   version: {version_tag: v1.2.6}
 metadata: {description: A chat, logo_img: 'asset:icononly.png', title: NextServers}
 name: Next Servers
-native_deps: null
+native_deps: {head_html: ''}
 package_name: Next_Servers
 runtime_options:
   client_version: '3'
