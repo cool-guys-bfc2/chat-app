@@ -16,9 +16,10 @@ class Form1(Form1Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.file_loader_1.visible=False
     try:
       if 'contact' in anvil.server.startup_data:
-        self.recipient.text=anvil.server.startup_data['contact']
+        self.text_6.text=anvil.server.startup_data['contact']
     except:
       pass
     self.rec=[]
