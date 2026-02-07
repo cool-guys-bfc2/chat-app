@@ -27,3 +27,8 @@ class Apps(AppsTemplate):
   def navigation_link_4_click(self, **event_args):
     """This method is called when the component is clicked"""
     pass
+
+  @handle("link_1", "click")
+  def link_1_click(self, **event_args):
+    """This method is called clicked"""
+    pass
