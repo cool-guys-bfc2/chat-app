@@ -25,9 +25,9 @@ from datetime import datetime
 #   return 42
 #
 
-@anvil.server.route('/update')
-def route():
-  x=app_tables.versioning.search(Version name='V2')
+@anvil.server.route('/update/:b')
+def route(b):
+  x=app_tables.versioning.search(Version_name=b)
   for i in x:
-    app_tables.versioning.get(Version name='V2')['Version Number']+=0.1
-    app_table.versioning.get(Version name='V2')['Time']=datetime.now()
+    app_tables.versioning.get(Version_name=b)['Version Number']+=0.1
+    app_tables.versioning.get(Version_name=b)['Time']=datetime.now()
