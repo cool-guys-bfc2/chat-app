@@ -10,6 +10,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
+from datetime import datetime
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
@@ -29,4 +30,4 @@ def route():
   x=app_tables.versioning.search(Version name='V2')
   for i in x:
     app_tables.versioning.get(Version name='V2')['Version Number']+=0.1
-    app_table.versioning.get(Version name='V2')['Time']=dat
+    app_table.versioning.get(Version name='V2')['Time']=datetime.now()
