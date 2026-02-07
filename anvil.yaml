@@ -90,6 +90,9 @@ db_schema:
     - admin_ui: {order: 15, width: 200}
       name: Name
       type: string
+    - admin_ui: {order: 16, width: 200}
+      name: img
+      type: simpleObject
     server: full
     title: Users
 dependencies:

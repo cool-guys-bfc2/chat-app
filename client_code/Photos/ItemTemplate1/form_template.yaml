@@ -1,3 +1,12 @@
-components: []
+components:
+- data_bindings:
+  - {code: 'self.item[''src'']', property: source, writeback: false}
+  layout_properties: {full_width_row: true, grid_position: 'HSPFJZ,NBRPFX'}
+  name: image_1
+  properties: {display_mode: shrink_to_fit}
+  type: Image
 container: {type: ColumnPanel}
+custom_component: false
 is_package: true
+properties: []
+toolbox_item: {title: Image SRC}

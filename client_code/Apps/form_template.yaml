@@ -19,6 +19,10 @@ components_by_slot:
     name: navigation_link_3
     properties: {icon: 'mi:contacts_product', navigate_to: Contact, text: Contact}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+  - layout_properties: {}
+    name: navigation_link_5
+    properties: {icon: 'mi:photo_album', navigate_to: Photos, text: Photos}
+    type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
 is_package: true
 layout:
   properties: {background_color: '', show_sidesheet: false}

@@ -18,9 +18,23 @@ class Photos(PhotosTemplate):
     self.init_components(**properties)
     self.load()
     # Any code you write here will run before the form opens.
-  def load(self):
-
   @handle("file_loader_1", "change")
   def file_loader_1_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
-    anvil.users.get_user()['img'][file.name]=anvil
+    if not anvil.users.get_user()['img']:
+      anvil.users.get_user()['img']={}
+    x=anvil.users.get_user()['img']
+    x[file.name]=anvil.server.call('image_to_rgba_list',file)
+    anvil.users.get_user()['img']=x
+    self.load()
+  def load(self):
+    it=[]
+    x=anvil.users.get_user()['img']
+    if not x:
+      x={}
+      anvil.users.get_user()['img']=x
+    for k in x:
+      v=x[k]
+      i=anvil.server.call_s('rgba_list_to_media',v)
+      it.append({'src':i})
+    self.repeating_panel_1.items=it
