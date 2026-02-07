@@ -95,6 +95,20 @@ db_schema:
       type: simpleObject
     server: full
     title: Users
+  versioning:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      name: Version name
+      type: string
+    - admin_ui: {order: 1, width: 200}
+      name: Version Number
+      type: simpleObject
+    - admin_ui: {order: 2, width: 200}
+      name: Time
+      type: datetime
+    server: full
+    title: Versioning
 dependencies:
 - config: {}
   dep_id: dep_lin1x4oec0ytd
