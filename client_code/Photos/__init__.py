@@ -1,4 +1,4 @@
-from ._anvil_designer import FileTemplate
+from ._anvil_designer import PhotosTemplate
 from anvil import *
 import anvil.server
 import m3.components as m3
@@ -12,22 +12,15 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 
-class File(FileTemplate):
+class Photos(PhotosTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    try:
-      self.load()
-    except:
-      pass
+    self.load()
     # Any code you write here will run before the form opens.
   def load(self):
-    it=[]
-    f=anvil.users.get_user()['Files']
-    if not f:
-      f={}
-      anvil.users.get_user()['Files']=f
-    for i in f:
-      c=anvil.server.call_s('readf',i)
-      it.append({'content':c,'name':i})
-    
+
+  @handle("file_loader_1", "change")
+  def file_loader_1_change(self, file, **event_args):
+    """This method is called when a new file is loaded into this FileLoader"""
+    anvil.users.get_user()['img'][file.name]=anvil
